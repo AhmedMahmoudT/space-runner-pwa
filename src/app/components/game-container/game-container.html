@@ -1,0 +1,84 @@
+<div class="game-viewport">
+  <canvas #canvas></canvas>
+
+  <!-- MENU STATE -->
+  <div class="ui-overlay menu" *ngIf="gameService.state() === GameState.MENU">
+    <div class="panel glass">
+      <h1 class="title">SPACE RUNNER</h1>
+      <p class="subtitle">Avoid the meteors. Survive.</p>
+
+      <!-- Player Name Input -->
+      <div class="name-input" *ngIf="!leaderboardService.playerName()">
+        <input
+          type="text"
+          placeholder="Enter your name"
+          #nameInput
+          (keyup.enter)="setPlayerName(nameInput.value)"
+        />
+        <button class="btn-small" (click)="setPlayerName(nameInput.value)">OK</button>
+      </div>
+      <div class="player-name" *ngIf="leaderboardService.playerName()">
+        <span class="label">PILOT</span>
+        <span class="name">{{ leaderboardService.playerName() }}</span>
+      </div>
+
+      <div class="score-display" *ngIf="gameService.highScore() > 0">
+        <span class="label">YOUR BEST</span>
+        <span class="value">{{ gameService.highScore() }}</span>
+      </div>
+
+      <button class="btn-primary" (click)="startGame()">START MISSION</button>
+
+      <!-- Leaderboard -->
+      <div class="leaderboard" *ngIf="leaderboardService.leaderboard().length > 0">
+        <h3 class="leaderboard-title">GLOBAL LEADERBOARD</h3>
+        <div class="leaderboard-list">
+          <div
+            class="leaderboard-entry"
+            *ngFor="let entry of leaderboardService.leaderboard(); let i = index"
+          >
+            <span class="rank">{{ i + 1 }}</span>
+            <span class="entry-name">{{ entry.name }}</span>
+            <span class="entry-score">{{ entry.score }}</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="instructions">Use Left/Right Arrows or A/D to Move</p>
+
+      <!-- Connection status -->
+      <div class="connection-status" [class.online]="leaderboardService.isOnline()">
+        {{ leaderboardService.isOnline() ? '● Online' : '○ Offline' }}
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD STATE -->
+  <div class="ui-overlay hud" *ngIf="gameService.state() === GameState.PLAYING">
+    <div class="score-pill glass">
+      <span class="label">SCORE</span>
+      <span class="value">{{ gameService.score() }}</span>
+    </div>
+  </div>
+
+  <!-- GAME OVER STATE -->
+  <div class="ui-overlay game-over" *ngIf="gameService.state() === GameState.GAME_OVER">
+    <div class="panel glass">
+      <h2 class="title red">CRITICAL FAILURE</h2>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="label">SCORE</span>
+          <span class="value">{{ gameService.score() }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">BEST</span>
+          <span class="value">{{ gameService.highScore() }}</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" (click)="restartGame()">RETRY MISSION</button>
+      <button class="btn-secondary" (click)="gameService.resetGame()">MAIN MENU</button>
+    </div>
+  </div>
+</div>
