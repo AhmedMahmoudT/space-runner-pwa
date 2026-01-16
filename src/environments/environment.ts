@@ -12,12 +12,12 @@ export interface FirebaseConfig {
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-    databaseURL: 'https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    appId: 'YOUR_APP_ID'
+    apiKey: 'AIzaSyA2HwCC8Uowa9Px2uiqKXUaeEQUgzMy8Ns',
+    authDomain: 'space-runner-pwa.firebaseapp.com',
+    databaseURL: 'https://space-runner-pwa-default-rtdb.firebaseio.com',
+    projectId: 'space-runner-pwa',
+    storageBucket: 'space-runner-pwa.firebasestorage.app',
+    messagingSenderId: '383954222651',
+    appId: '1:383954222651:web:0913fc318ab205dd79261e'
   } as FirebaseConfig
 };

@@ -47,6 +47,33 @@ const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID || 'YOUR_APP_ID'
 };
 
+// Check if we're in a CI/production environment and variables are missing
+const isCI = process.env.CI || process.env.VERCEL || process.env.NODE_ENV === 'production';
+const hasPlaceholders = Object.values(firebaseConfig).some(val => 
+  val.includes('YOUR_') || val === 'YOUR_API_KEY' || val === 'YOUR_SENDER_ID' || val === 'YOUR_APP_ID'
+);
+
+if (isCI && hasPlaceholders) {
+  console.error('❌ ERROR: Firebase environment variables are missing!');
+  console.error('Required variables:');
+  console.error('  - FIREBASE_API_KEY');
+  console.error('  - FIREBASE_AUTH_DOMAIN');
+  console.error('  - FIREBASE_DATABASE_URL');
+  console.error('  - FIREBASE_PROJECT_ID');
+  console.error('  - FIREBASE_STORAGE_BUCKET');
+  console.error('  - FIREBASE_MESSAGING_SENDER_ID');
+  console.error('  - FIREBASE_APP_ID');
+  console.error('\nPlease set these in your Vercel project settings:');
+  console.error('Settings → Environment Variables');
+  process.exit(1);
+}
+
+if (hasPlaceholders) {
+  console.warn('⚠️  Using placeholder values. Set environment variables for actual Firebase config.');
+} else {
+  console.log('✅ All Firebase environment variables found');
+}
+
 envFiles.forEach(filePath => {
   const fullPath = path.join(process.cwd(), filePath);
   
