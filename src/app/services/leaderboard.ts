@@ -55,7 +55,8 @@ export class LeaderboardService {
   }
 
   private subscribeToLeaderboard() {
-    const topScoresQuery = query(this.leaderboardRef, orderByChild('score'), limitToLast(10));
+    // Get top 100 scores to ensure we have enough entries after deduplication
+    const topScoresQuery = query(this.leaderboardRef, orderByChild('score'), limitToLast(100));
 
     onValue(topScoresQuery, (snapshot) => {
       const entries: LeaderboardEntry[] = [];
@@ -65,10 +66,28 @@ export class LeaderboardService {
           ...child.val(),
         });
       });
-      // Sort descending (highest first)
-      entries.sort((a, b) => b.score - a.score);
-      this.leaderboard.set(entries);
-      console.log('📊 Leaderboard updated:', entries.length, 'entries');
+
+      // Deduplicate by player name - keep only the highest score per player
+      const playerBestScores = new Map<string, LeaderboardEntry>();
+      
+      entries.forEach((entry) => {
+        const playerName = entry.name.toLowerCase().trim();
+        const existing = playerBestScores.get(playerName);
+        
+        if (!existing || entry.score > existing.score) {
+          playerBestScores.set(playerName, entry);
+        }
+      });
+
+      // Convert map to array and sort by score (descending)
+      const uniqueEntries = Array.from(playerBestScores.values());
+      uniqueEntries.sort((a, b) => b.score - a.score);
+      
+      // Take top 10 unique players
+      const top10 = uniqueEntries.slice(0, 10);
+      
+      this.leaderboard.set(top10);
+      console.log('📊 Leaderboard updated:', top10.length, 'unique players (from', entries.length, 'total entries)');
     });
   }
 
