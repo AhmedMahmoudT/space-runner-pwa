@@ -266,6 +266,8 @@ canvas {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      overflow-y: scroll;
+      height: 10rem;
     }
 
     .leaderboard-entry {
