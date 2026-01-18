@@ -40,14 +40,14 @@ export class LeaderboardService {
     onAuthStateChanged(auth, (user) => {
       this.currentUser.set(user);
       if (user) {
-        console.log('✅ Authenticated anonymously:', user.uid);
+        // console.log('✅ Authenticated anonymously:', user.uid);
       }
     });
 
     try {
       await signInAnonymously(auth);
     } catch (error) {
-      console.warn('⚠️ Anonymous auth failed (offline?):', error);
+      // console.warn('⚠️ Anonymous auth failed (offline?):', error);
     }
 
     // Subscribe to leaderboard updates
@@ -87,7 +87,7 @@ export class LeaderboardService {
       const top10 = uniqueEntries.slice(0, 10);
       
       this.leaderboard.set(top10);
-      console.log('📊 Leaderboard updated:', top10.length, 'unique players (from', entries.length, 'total entries)');
+      // console.log('📊 Leaderboard updated:', top10.length, 'unique players (from', entries.length, 'total entries)');
     });
   }
 
@@ -104,7 +104,7 @@ export class LeaderboardService {
 
     // Try to submit to Firebase
     if (!this.currentUser()) {
-      console.warn('⚠️ Not authenticated, score saved locally only');
+      // console.warn('⚠️ Not authenticated, score saved locally only');
       return false;
     }
 
@@ -116,10 +116,10 @@ export class LeaderboardService {
       };
 
       await push(this.leaderboardRef, entry);
-      console.log('✅ Score submitted to Firebase:', score);
+      // console.log('✅ Score submitted to Firebase:', score);
       return true;
     } catch (error) {
-      console.warn('⚠️ Failed to submit score (offline?):', error);
+      // console.warn('⚠️ Failed to submit score (offline?):', error);
       return false;
     }
   }
@@ -156,6 +156,6 @@ export class LeaderboardService {
     }
 
     localStorage.setItem('space-runner-last-sync', Date.now().toString());
-    console.log('🔄 Synced', pendingScores.length, 'pending scores');
+    // console.log('🔄 Synced', pendingScores.length, 'pending scores');
   }
 }

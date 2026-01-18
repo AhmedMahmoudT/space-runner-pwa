@@ -101,9 +101,9 @@ export class ThreeService implements OnDestroy {
       this.meteorTemplate.scale.set(0.8, 0.8, 0.8); // Adjust scale as needed
 
       this.modelsLoaded = true;
-      console.log('✅ GLB models loaded successfully');
+      // console.log('✅ GLB models loaded successfully');
     } catch (error) {
-      console.warn('⚠️ GLB models not found, using fallback geometry:', error);
+      // console.warn('⚠️ GLB models not found, using fallback geometry:', error);
       // Fallback to geometric shapes if models aren't available yet
       this.createFallbackSpaceship();
       this.modelsLoaded = true;

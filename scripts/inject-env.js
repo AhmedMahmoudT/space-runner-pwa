@@ -28,7 +28,7 @@ if (fs.existsSync(envPath)) {
       }
     }
   });
-  console.log('📄 Loaded .env file');
+  // console.log('📄 Loaded .env file');
 }
 
 const envFiles = [
@@ -54,31 +54,31 @@ const hasPlaceholders = Object.values(firebaseConfig).some(val =>
 );
 
 if (isCI && hasPlaceholders) {
-  console.error('❌ ERROR: Firebase environment variables are missing!');
-  console.error('Required variables:');
-  console.error('  - FIREBASE_API_KEY');
-  console.error('  - FIREBASE_AUTH_DOMAIN');
-  console.error('  - FIREBASE_DATABASE_URL');
-  console.error('  - FIREBASE_PROJECT_ID');
-  console.error('  - FIREBASE_STORAGE_BUCKET');
-  console.error('  - FIREBASE_MESSAGING_SENDER_ID');
-  console.error('  - FIREBASE_APP_ID');
-  console.error('\nPlease set these in your Vercel project settings:');
-  console.error('Settings → Environment Variables');
+  // console.error('❌ ERROR: Firebase environment variables are missing!');
+  // console.error('Required variables:');
+  // console.error('  - FIREBASE_API_KEY');
+  // console.error('  - FIREBASE_AUTH_DOMAIN');
+  // console.error('  - FIREBASE_DATABASE_URL');
+  // console.error('  - FIREBASE_PROJECT_ID');
+  // console.error('  - FIREBASE_STORAGE_BUCKET');
+  // console.error('  - FIREBASE_MESSAGING_SENDER_ID');
+  // console.error('  - FIREBASE_APP_ID');
+  // console.error('\nPlease set these in your Vercel project settings:');
+  // console.error('Settings → Environment Variables');
   process.exit(1);
 }
 
 if (hasPlaceholders) {
-  console.warn('⚠️  Using placeholder values. Set environment variables for actual Firebase config.');
+  // console.warn('⚠️  Using placeholder values. Set environment variables for actual Firebase config.');
 } else {
-  console.log('✅ All Firebase environment variables found');
+  // console.log('✅ All Firebase environment variables found');
 }
 
 envFiles.forEach(filePath => {
   const fullPath = path.join(process.cwd(), filePath);
   
   if (!fs.existsSync(fullPath)) {
-    console.warn(`⚠️  File not found: ${filePath}`);
+    // console.warn(`⚠️  File not found: ${filePath}`);
     return;
   }
 
@@ -115,6 +115,6 @@ envFiles.forEach(filePath => {
   );
 
   fs.writeFileSync(fullPath, content, 'utf8');
-  console.log(`✅ Injected environment variables into ${filePath}`);
+  // console.log(`✅ Injected environment variables into ${filePath}`);
 });
 
