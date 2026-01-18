@@ -90,8 +90,9 @@ export class ThreeService implements OnDestroy {
       // Load spaceship
       const spaceshipGltf = await this.loadGLTF(SPACESHIP_MODEL_PATH);
       this.spaceship = spaceshipGltf.scene;
-      this.spaceship.scale.set(0.1, 0.1, 0.1); // Adjust scale as needed
+      this.spaceship.scale.set(0.08, 0.08, 0.08); // Adjust scale as needed
       this.spaceship.position.set(0, 0, 4);
+      this.spaceship.rotation.y = Math.PI;
       this.scene.add(this.spaceship);
 
       // Load meteor template (we'll clone this for obstacles)
